@@ -41,6 +41,8 @@ namespace ownfos::graphic
 		int width;
 		int height;
 
+		DWORD windowStyle;
+
 		std::list<InputListener*> inputListeners;
 		std::list<ResizeListener*> resizeListeners;
 
@@ -51,7 +53,7 @@ namespace ownfos::graphic
 		static LRESULT WINAPI WindowProcedure(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 
 	public:
-		Window(std::shared_ptr<Graphic> graphic, int width, int height, const char* windowName);
+		Window(std::shared_ptr<Graphic> graphic, int width, int height, const char* windowName, bool resizable = false);
 		~Window();
 
 		void Resize(int width, int height);

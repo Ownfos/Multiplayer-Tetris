@@ -68,9 +68,10 @@ int main()
 								int initialType;
 								int opponentInitialType;
 
-								switch (buffer.Read<int>())
+								int type = buffer.Read<int>();
+
+								if (type == 0) // -Register name
 								{
-								case 0: // -Register name
 									name = buffer.ReadWideString();
 									std::wcout << L"someone is trying to register as name : " << name << std::endl;
 									{
@@ -91,8 +92,9 @@ int main()
 											client->SendData(buffer);
 										}
 									}
-									break;
-								case 1: // -Match request
+								}
+								else if (type == 1) // -Match request
+								{
 									opponentName = buffer.ReadWideString();
 									{
 										std::lock_guard guard(clientsMutex);
@@ -107,8 +109,9 @@ int main()
 											clients[opponentName].socket->SendData(buffer);
 										}
 									}
-									break;
-								case 2: // -Match accepted
+								}
+								else if (type == 2) // -Match accepted
+								{
 									opponentName = buffer.ReadWideString();
 									{
 										initialType = distribution(engine);
@@ -131,8 +134,9 @@ int main()
 										}
 										SendClientList(clients);
 									}
-									break;
-								case 3: // -Match rejected
+								}
+								else if (type == 3) // -Match rejected
+								{
 									opponentName = buffer.ReadWideString();
 									{
 										std::lock_guard guard(clientsMutex);
@@ -144,21 +148,18 @@ int main()
 										buffer.WriteWideString(name);
 										clients[opponentName].socket->SendData(buffer);
 									}
-									break;
-								case 4: // -Match ended
+								}
+								else if (type == 4) // -Match ended
+								{
+									std::lock_guard guard(clientsMutex);
+									
 									clients[name].opponentName = L"";
-									{
-										std::lock_guard guard(clientsMutex);
-										SendClientList(clients);
-									}
-									break;
-								default: // -Pass buffer to opponent
-									{
-										//std::wcout << L"pass buffer from " << name << L" to " << clients[name].opponentName << std::endl;
-										std::lock_guard guard(clientsMutex);
-										clients[clients[name].opponentName].socket->SendData(buffer);
-									}
-									break;
+									SendClientList(clients);
+								}
+								else // -Pass buffer to opponent
+								{
+									std::lock_guard guard(clientsMutex);
+									clients[clients[name].opponentName].socket->SendData(buffer);
 								}
 							}
 							catch (DisconnectionDetectedException& exception)
@@ -175,19 +176,31 @@ int main()
 											Buffer buffer;
 											buffer.Write<int>(6);
 											opponent->second.opponentName = L"";
-											opponent->second.socket->SendData(buffer);
+
+											try
+											{
+												opponent->second.socket->SendData(buffer);
+											}
+											catch (DisconnectionDetectedException& e)
+											{
+
+											}
+											catch (std::exception& e)
+											{
+
+											}
 										}
 
 										clients.erase(name);
 										SendClientList(clients);
 									}
 								}
-								break;
+								return;
 							}
 							catch (std::exception& exception)
 							{
 								std::cout << "exception! : " << exception.what() << std::endl;
-								break;
+								return;
 							}
 						}
 					});

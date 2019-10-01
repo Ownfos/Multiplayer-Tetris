@@ -19,7 +19,7 @@ InputBox::InputBox
 	Object(id), application(application), sys(sys),
 	window(window), input(input), x(x), y(y)
 {
-	textListener = std::make_shared<TextListener>(window, 16, true, false, true, initialText);
+	textListener = std::make_shared<TextListener>(window, 16, false, false, true, initialText);
 	collisionBox = std::make_shared<AABB>
 	(
 		x * window->PixelWidth(),

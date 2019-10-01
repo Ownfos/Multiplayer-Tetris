@@ -19,8 +19,6 @@ System::System
 	: Object(id), application(application), window(window), input(input)
 {
 	socket = std::make_shared<Socket>();
-
-	ConnectServer(L"127.0.0.1");
 }
 
 void System::DeactivateBoards()
@@ -33,27 +31,42 @@ void System::DeactivateBoards()
 
 void System::ConnectServer(std::wstring ip)
 {
-	socket->ConnectServer(ip, 12345);
-	recieveThread = std::thread([this]
+	if (!serverConnected)
+	{
+		try
 		{
-			while (true)
-			{
-				try
+			socket->ConnectServer(ip, 12345);
+			recieveThread = std::thread([this]
 				{
-					this->OnDataRecieved(socket->RecieveData());
-				}
-				catch (DisconnectionDetectedException& exception)
-				{
-					//MessageBox(NULL, exception.what().c_str(), "client recieve thread disconnection", NULL);
-					break;
-				}
-				catch (std::exception& exception)
-				{
-					MessageBox(NULL, exception.what(), "client recieve thread error", MB_OK);
-					break;
-				}
-			}
-		});
+					while (true)
+					{
+						try
+						{
+							this->OnDataRecieved(socket->RecieveData());
+						}
+						catch (DisconnectionDetectedException& exception)
+						{
+							//MessageBox(NULL, exception.what().c_str(), "client recieve thread disconnection", NULL);
+							break;
+						}
+						catch (std::exception& exception)
+						{
+							MessageBox(NULL, exception.what(), "client recieve thread error", MB_OK);
+							break;
+						}
+					}
+				});
+			serverConnected = true;
+		}
+		catch (InvalidIPAddressException& e)
+		{
+			throw std::exception("invalid ip address");
+		}
+		catch (std::exception& e)
+		{
+			throw std::exception("invalid ip address");
+		}
+	}
 }
 
 void System::SendName(std::wstring name)
@@ -97,6 +110,16 @@ void System::OnCreate()
 {
 	try
 	{
+		ipInputID = application->CreateObject<InputBox>
+		(
+			application,
+			this,
+			window,
+			input,
+			0,
+			50,
+			L"127.0.0.1"
+		);
 		nameInputID = application->CreateObject<InputBox>
 		(
 			application,
@@ -107,6 +130,7 @@ void System::OnCreate()
 			0,
 			L"your name"
 		);
+
 	}
 	catch (std::exception& e)
 	{
@@ -124,6 +148,20 @@ void System::OnUpdate(float deltaTime)
 	}
 	if (input->FrameState(KeyCode::Enter) == InputState::PressedNow)
 	{
+		if (auto pointer = application->FindObjectWithID(ipInputID); pointer != nullptr)
+		{
+			auto serverIP = dynamic_cast<InputBox*>(pointer)->GetBuffer();
+
+			try
+			{
+				ConnectServer(serverIP);
+			}
+			catch (std::exception& e)
+			{
+				MessageBox(NULL, "Invalid server ip address", "", MB_OK);
+				return;
+			}
+		}
 		if (auto pointer = application->FindObjectWithID(nameInputID); pointer != nullptr)
 		{
 			userName = dynamic_cast<InputBox*>(pointer)->GetBuffer();
@@ -176,6 +214,7 @@ void System::OnDataRecieved(ownfos::network::Buffer buffer)
 		{
 		// destroy input box
 		case 0:
+			application->DestroyObject(ipInputID);
 			application->DestroyObject(nameInputID);
 
 			scrollListViewerID = application->CreateObject<ScrollListViewer>(application, this, window, input);
@@ -286,6 +325,15 @@ void System::OnDataRecieved(ownfos::network::Buffer buffer)
 		case 8:
 			if (auto pointer = application->FindObjectWithID(opponentBoard); pointer != nullptr)
 				dynamic_cast<TetrisBoard*>(pointer)->RotateBlock();
+			try
+			{
+				buffer.Read<int>();
+				MessageBox(NULL,"something more", "aaaaaaaaaaaaaaaaaaa", MB_OK);
+			}
+			catch (std::exception& e)
+			{
+
+			}
 			break;
 
 		// opponent lost the match

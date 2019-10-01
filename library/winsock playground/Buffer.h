@@ -20,12 +20,17 @@ namespace ownfos::network
 		friend class Socket;
 
 	private:
+		// -First 4 byte(int) is reserved for number of bytes in buffer.
+		// -this variable will automatically change to 4(actual beginning of data) on Socket::RecieveData().
 		int readPosition = 0;
 		std::vector<char> buffer;
 
 		void Resize(int size);
 		int Size();
 		char* Pointer();
+
+		// -Records total number of bytes in this buffer at the beginning.
+		void EndWrite();
 
 	public:
 		Buffer(int size = 0);

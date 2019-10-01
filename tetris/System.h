@@ -18,12 +18,14 @@ private:
 	std::shared_ptr<ownfos::graphic::Window>				window;
 	std::shared_ptr<ownfos::graphic::BasicInputListener>	input;
 	std::thread												recieveThread;
+	ObjectID												ipInputID;
 	ObjectID												nameInputID;
 	ObjectID												scrollListViewerID;
 	ObjectID												board;
 	ObjectID												opponentBoard;
 	std::wstring											userName;
 	std::wstring											opponentName;
+	std::atomic_bool										serverConnected = false;
 	std::atomic_bool										userNameValid = false;
 	std::atomic_bool										matchStarted = false;
 	std::atomic_bool										waitingMatchConfirmation = false; // prevents sending multiple match request at same time

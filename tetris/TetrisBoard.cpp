@@ -247,6 +247,8 @@ void TetrisBoard::AddDummyLines(int count)
 
 void TetrisBoard::RemoveDummyLines(int count)
 {
+	std::lock_guard guard(dataMutex);
+
 	for (int i = 0; i < count; i++)
 		for (int y = 1; y < 20; y++)
 			for (int x = 0; x < 10; x++)
@@ -422,7 +424,7 @@ void TetrisBoard::OnRender()
 		RenderBlock(x, y, currentBlockType);
 	}
 
-
+	 
 	// combo counter
 	if (active && combo > 0)
 		application->RenderText(L"Combo: " + std::to_wstring(combo), { 1.0f,1.0f,1.0f,1.0f }, boardX - blockSize * 6, boardY - blockSize * 9, 0.0f);

@@ -41,6 +41,9 @@ namespace ownfos::network
 
 		// -Used on making new Socket instance from result of Socket::AcceptClient().
 		Socket(SOCKET sock);
+
+		void HandleRecieveDataError(int bytesRecieved);
+
 	public:
 		// -Create new SOCKET.
 		Socket();

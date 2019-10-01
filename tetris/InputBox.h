@@ -24,8 +24,8 @@ private:
 	std::shared_ptr<ownfos::collision::AABB>				collisionBox;
 	int														x;
 	int														y;
-	bool													activated = true;
-	bool													caretBlink = true;
+	bool													activated = false;
+	bool													caretBlink = false;
 	int														blinkCounter = 0;
 	int														phase = 0;
 

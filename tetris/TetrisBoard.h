@@ -7,6 +7,8 @@
 #include "MyApplication.h"
 #include "System.h"
 
+#include <mutex>
+
 namespace
 {
 	constexpr int blockSize			= 20;
@@ -23,7 +25,9 @@ private:
 	
 	std::shared_ptr<ownfos::network::Socket>				socket;
 	std::shared_ptr<ownfos::graphic::BasicInputListener>	input;
-	
+
+	std::mutex dataMutex;
+
 	bool	active;
 	int		boardX;
 	int		boardY;
