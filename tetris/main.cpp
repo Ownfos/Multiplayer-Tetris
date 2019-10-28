@@ -12,7 +12,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		return application.Run();
 	}
-	catch (std::exception& exception)
+	catch (std::exception & exception)
 	{
 		MessageBox(NULL, exception.what(), "Error", MB_OK);
 		return -1;

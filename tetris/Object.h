@@ -21,4 +21,3 @@ public:
 	virtual void OnRender() = 0;
 	virtual void OnDestroy() = 0;
 };
-

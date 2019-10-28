@@ -15,38 +15,38 @@ TextRenderer::TextRenderer
 	window(window),
 	textFormat(textFormat)
 {
-	textSurface	= std::make_shared<TextSurface>
-	(
-		graphic,
-		window->Width(),
-		window->Height()
-	);
+	textSurface = std::make_shared<TextSurface>
+		(
+			graphic,
+			window->Width(),
+			window->Height()
+			);
 	vertexShader = std::make_shared<VertexShader>
-	(
-		graphic, L"TextVS.cso",
-		InputLayout
-		{
-			{ "POSITION", DXGI_FORMAT_R32G32B32_FLOAT },
-			{ "TEXCOORD", DXGI_FORMAT_R32G32_FLOAT }
-		}
+		(
+			graphic, L"TextVS.cso",
+			InputLayout
+			{
+				{ "POSITION", DXGI_FORMAT_R32G32B32_FLOAT },
+				{ "TEXCOORD", DXGI_FORMAT_R32G32_FLOAT }
+			}
 	);
-	pixelShader		= std::make_shared<PixelShader>(graphic, L"TextPS.cso");
-	positionBuffer	= std::make_shared<ConstantBuffer<TextPosition>>(graphic);
-	sampler			= std::make_shared<Sampler>(graphic);
-	vertexBuffer	= std::make_shared<TriangleMesh<TextVertex>>
-	(
-		graphic,
-		std::vector<TextVertex>{
-			{  1, 1, 0, 1, 0 },
-			{  1,-1, 0, 1, 1 },
-			{ -1,-1, 0, 0, 1 },
-			{ -1, 1, 0, 0, 0 }
-		},
-		std::vector<unsigned int>{
-			0, 1, 2,
-			2, 3, 0
-		}
-	);
+	pixelShader = std::make_shared<PixelShader>(graphic, L"TextPS.cso");
+	positionBuffer = std::make_shared<ConstantBuffer<TextPosition>>(graphic);
+	sampler = std::make_shared<Sampler>(graphic);
+	vertexBuffer = std::make_shared<TriangleMesh<TextVertex>>
+		(
+			graphic,
+			std::vector<TextVertex>{
+				{  1, 1, 0, 1, 0 },
+				{ 1,-1, 0, 1, 1 },
+				{ -1,-1, 0, 0, 1 },
+				{ -1, 1, 0, 0, 0 }
+	},
+			std::vector<unsigned int>{
+					0, 1, 2,
+						2, 3, 0
+				}
+				);
 }
 
 void TextRenderer::OnResize(int width, int height)
@@ -76,7 +76,7 @@ void TextRenderer::RenderText
 		text,
 		textFormat,
 		color,
-		window->Width()	/ 2.0f + x,
+		window->Width() / 2.0f + x,
 		window->Height() / 2.0f - y,
 		10000.0f
 	);

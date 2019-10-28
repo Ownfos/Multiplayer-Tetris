@@ -51,4 +51,3 @@ public:
 
 	int RandomInt(int start, int end);
 };
-

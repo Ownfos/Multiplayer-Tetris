@@ -21,7 +21,7 @@ Application::~Application()
 		ownfos::graphic::Uninitialize();
 		ownfos::network::Uninitialize();
 	}
-	catch (std::exception& exception)
+	catch (std::exception & exception)
 	{
 		MessageBox(NULL, exception.what(), "", MB_OK);
 	}
@@ -49,12 +49,12 @@ int Application::Run()
 
 				OnFrameEnd();
 
-				for(auto id : deleteList)
+				for (auto id : deleteList)
 					objectMap.erase(id);
 			}
 		}
 	}
-	catch (std::exception& exception)
+	catch (std::exception & exception)
 	{
 		MessageBox(NULL, exception.what(), "Error on application's loop", MB_OK);
 		return -1;

@@ -40,8 +40,6 @@ public:
 	std::list<T*> FindObjectWithType();
 
 	Object* FindObjectWithID(ObjectID id);
-
-
 };
 
 #include "Application.hpp"

@@ -4,7 +4,6 @@
 
 Object::Object(ObjectID id) : id(id)
 {
-
 }
 
 ObjectID Object::ID()

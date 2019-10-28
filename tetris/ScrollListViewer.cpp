@@ -8,15 +8,14 @@ using namespace ownfos::collision;
 ScrollListViewer::ScrollListViewer
 (
 	ObjectID												id,
-	MyApplication*											application,
-	System*													system,
+	MyApplication* application,
+	System* system,
 	std::shared_ptr<ownfos::graphic::Window>				window,
 	std::shared_ptr<ownfos::graphic::BasicInputListener>	input
 ) :
 	Object(id), MouseWheelListener(window), application(application),
 	system(system), window(window), input(input)
 {
-
 }
 
 void ScrollListViewer::UpdateData(std::list<std::wstring> data)
@@ -28,7 +27,6 @@ void ScrollListViewer::UpdateData(std::list<std::wstring> data)
 
 void ScrollListViewer::OnCreate()
 {
-
 }
 
 void ScrollListViewer::OnUpdate(float deltaTime)
@@ -105,7 +103,6 @@ void ScrollListViewer::OnRender()
 
 void ScrollListViewer::OnDestroy()
 {
-
 }
 
 void ScrollListViewer::OnWheelUp()

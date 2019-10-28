@@ -12,33 +12,33 @@ BlockRenderer::BlockRenderer
 	window(window)
 {
 	vertexShader = std::make_shared<VertexShader>
-	(
-		graphic,
-		L"BlockVS.cso",
-		std::vector<std::pair<std::string, DXGI_FORMAT>>
-		{
-			{ "POSITION", DXGI_FORMAT_R32G32_FLOAT }
-		}
+		(
+			graphic,
+			L"BlockVS.cso",
+			std::vector<std::pair<std::string, DXGI_FORMAT>>
+	{
+		{ "POSITION", DXGI_FORMAT_R32G32_FLOAT }
+	}
 	);
-	pixelShader		= std::make_shared<PixelShader>(graphic, L"BlockPS.cso");
-	colorBuffer		= std::make_shared<ConstantBuffer<BlockColor>>(graphic);
-	positionBuffer	= std::make_shared<ConstantBuffer<BlockPosition>>(graphic);
-	vertexBuffer	= std::make_shared<TriangleMesh<BlockVertex>>
-	(
-		graphic,
-		std::vector<BlockVertex>
-		{
-			{  1, 1 },
-			{  1,-1 },
-			{ -1,-1 },
-			{ -1, 1 }
-		},
-		std::vector<unsigned int>
+	pixelShader = std::make_shared<PixelShader>(graphic, L"BlockPS.cso");
+	colorBuffer = std::make_shared<ConstantBuffer<BlockColor>>(graphic);
+	positionBuffer = std::make_shared<ConstantBuffer<BlockPosition>>(graphic);
+	vertexBuffer = std::make_shared<TriangleMesh<BlockVertex>>
+		(
+			graphic,
+			std::vector<BlockVertex>
+	{
+		{  1, 1 },
+		{ 1,-1 },
+		{ -1,-1 },
+		{ -1, 1 }
+	},
+			std::vector<unsigned int>
 		{
 			0, 1, 2,
-			2, 3, 0
+				2, 3, 0
 		}
-	);
+		);
 }
 
 void BlockRenderer::RenderBlock
@@ -64,14 +64,14 @@ void BlockRenderer::RenderBlock
 	(
 		XMMatrixScaling
 		(
-			window->PixelWidth()	* halfWidth,
-			window->PixelHeight()	* halfHeight,
+			window->PixelWidth() * halfWidth,
+			window->PixelHeight() * halfHeight,
 			1.0f
 		) *
 		XMMatrixTranslation
 		(
-			window->PixelWidth()	* centerX,
-			window->PixelHeight()	* centerY,
+			window->PixelWidth() * centerX,
+			window->PixelHeight() * centerY,
 			centerZ
 		)
 	);

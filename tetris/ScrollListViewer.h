@@ -14,8 +14,8 @@ namespace
 class ScrollListViewer : public Object, public ownfos::graphic::MouseWheelListener
 {
 private:
-	MyApplication*											application;
-	System*													system;
+	MyApplication* application;
+	System* system;
 	std::shared_ptr<ownfos::graphic::Window>				window;
 	std::shared_ptr<ownfos::graphic::BasicInputListener>	input;
 	std::mutex												dataMutex;
@@ -29,8 +29,8 @@ public:
 	ScrollListViewer
 	(
 		ObjectID												id,
-		MyApplication*											application,
-		System*													system,
+		MyApplication* application,
+		System* system,
 		std::shared_ptr<ownfos::graphic::Window>				window,
 		std::shared_ptr<ownfos::graphic::BasicInputListener>	input
 	);

@@ -16,8 +16,8 @@ class System;
 class InputBox : public Object
 {
 private:
-	MyApplication*											application;
-	System*													sys;
+	MyApplication* application;
+	System* sys;
 	std::shared_ptr<ownfos::graphic::Window>				window;
 	std::shared_ptr<ownfos::graphic::BasicInputListener>	input;
 	std::shared_ptr<ownfos::graphic::TextListener>			textListener;
@@ -33,8 +33,8 @@ public:
 	InputBox
 	(
 		ObjectID												id,
-		MyApplication*											application,
-		System*													sys,
+		MyApplication* application,
+		System* sys,
 		std::shared_ptr<ownfos::graphic::Window>				window,
 		std::shared_ptr<ownfos::graphic::BasicInputListener>	input,
 		int														x,

@@ -10,20 +10,20 @@ using namespace ownfos::graphic;
 
 MyApplication::MyApplication(int fps) : Application(fps), randomEngine(time(NULL))
 {
-	graphic	= std::make_shared<Graphic>
-	(
-		D3D11_CREATE_DEVICE_DEBUG,
-		D3D10_CREATE_DEVICE_DEBUG
-	);
-	window			= std::make_shared<Window>(graphic, 600, 400, "window name", false);
-	input			= std::make_shared<BasicInputListener>(window);
-	blockRenderer	= std::make_shared<BlockRenderer>(graphic, window);
-	textRenderer	= std::make_shared<TextRenderer>
-	(
-		graphic,
-		window,
-		graphic->CreateTextFormat(L"Yu gothic", 15.0f)
-	);
+	graphic = std::make_shared<Graphic>
+		(
+			D3D11_CREATE_DEVICE_DEBUG,
+			D3D10_CREATE_DEVICE_DEBUG
+			);
+	window = std::make_shared<Window>(graphic, 600, 400, "window name", false);
+	input = std::make_shared<BasicInputListener>(window);
+	blockRenderer = std::make_shared<BlockRenderer>(graphic, window);
+	textRenderer = std::make_shared<TextRenderer>
+		(
+			graphic,
+			window,
+			graphic->CreateTextFormat(L"Yu gothic", 15.0f)
+			);
 
 	CreateObject<System>(this, window, input);
 }
